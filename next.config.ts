@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
+// Every page here shows live, per-user data, so the classic (non-Cache
+// Components) model is used: pages read the session cookie and render on each
+// request; mutations call revalidatePath().
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // PGlite ships WebAssembly + data files that must be loaded from node_modules
+  // at runtime rather than bundled.
+  serverExternalPackages: ["@electric-sql/pglite"],
   turbopack: {
     rules: {
       "*.css": {
